@@ -5,16 +5,16 @@ server:
 
 spring:
   datasource:
-    password: 4545
-    url: jdbc:postgresql://localhost:5432/login-management
-    username: postgres
+    password: 4b46e3cf93cee9d5d2067289dedec01001d423aa02586d27d58bdaadc84fbcbb
+    url: postgres://qfhsxuapgaxisa:4b46e3cf93cee9d5d2067289dedec01001d423aa02586d27d58bdaadc84fbcbb@ec2-44-199-52-133.compute-1.amazonaws.com:5432/d4nd55rp1tncao
+    username: qfhsxuapgaxisa
   session:
     store-type: jdbc
     jdbc:
       initialize-schema: always
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

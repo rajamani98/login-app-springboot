@@ -16,13 +16,6 @@ public class LoginService {
     private final AppUserRepository appUserRepository;
     private OtpVerification otpVerification;
 
-    /*@Value("$(spring.datasource.url)")
-    private String databaseUrl;
-    @Value("$(spring.datasource.username)")
-    private String databaseUsername;
-    @Value("$(spring.datasource.password)")
-    private String databasePassword;*/
-
 
     public boolean loginUser(String emailId) {
         otpVerification = new OtpVerification();

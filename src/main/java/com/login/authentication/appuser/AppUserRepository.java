@@ -11,5 +11,4 @@ public interface AppUserRepository
 
     AppUser findByEmail(String email);
 
-    boolean existsByEmail(String email);
 }
