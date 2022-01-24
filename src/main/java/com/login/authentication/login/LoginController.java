@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "https://login-form-authentication.herokuapp.com/")
 @RestController
 @RequestMapping(path = "api/v1")
 @AllArgsConstructor
@@ -23,13 +23,13 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping(value = "/login")
-    public boolean login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<Map<String, Boolean>> login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.setAttribute("emailId", request.getEmailId());
         if (loginService.loginUser(request.getEmailId()))
-            return true;
+            return new ResponseEntity<>(HttpStatus.OK);
         else
-            return false;
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/verify")
@@ -37,21 +37,15 @@ public class LoginController {
     public ResponseEntity<Map<String, Boolean>> verifyOtp(@RequestBody String otpObj, HttpServletRequest httpServletRequest) {
         String emailId = (String) httpServletRequest.getSession().getAttribute("emailId");
         JSONObject json = new JSONObject(otpObj);
-        System.out.println("Session id : " + httpServletRequest.getSession().getId());
-        System.out.println("otp from fe" + json.getString("otp"));
-        Map<String, Boolean> body = new HashMap<>();
-        body.put("status", true);
         if (loginService.verifyOtp(json.getString("otp"), emailId))
-            return new ResponseEntity<>(body, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         else
-            return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/logout")
-    public ResponseEntity<Map<String, Boolean>> destroySession(HttpServletRequest request) {
+    public ResponseEntity<Map<String, Boolean>> logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        Map<String, Boolean> body = new HashMap<>();
-        body.put("status", true);
-        return new ResponseEntity<>(body, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
