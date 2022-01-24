@@ -1,13 +1,11 @@
 package com.login.authentication.login;
 
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
 
 @Component
-@Scope(value = "prototype")
 public class OtpVerification {
     String otpNumber;
 
