@@ -32,7 +32,6 @@ public class LoginController {
     }
 
     @PostMapping(value = "/verify")
-    @Produces("application/json")
     public ResponseEntity<Map<String, Boolean>> verifyOtp(@RequestBody String otpObj, HttpServletRequest httpServletRequest) {
         String emailId = (String) httpServletRequest.getSession().getAttribute("emailId");
         JSONObject json = new JSONObject(otpObj);
