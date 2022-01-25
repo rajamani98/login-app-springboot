@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.Produces;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping(path = "api/v1")
 @AllArgsConstructor
@@ -25,15 +25,20 @@ public class LoginController {
     public ResponseEntity<Map<String, Boolean>> login(@RequestBody LoginRequest request, HttpServletRequest httpServletRequest) {
         HttpSession httpSession = httpServletRequest.getSession();
         httpSession.setAttribute("emailId", request.getEmailId());
+        
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Access-Control-Allow-Origin", "*");
+        headers.set("Access-Control-Allow-Methods", "POST");
+        headers.set("Access-Control-Allow-Headers", "Content-Type");
+
         if (loginService.loginUser(request.getEmailId()))
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(headers, HttpStatus.OK);
         else
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(headers, HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/verify")
     @Produces("application/json")
-    @CrossOrigin
     public ResponseEntity<Map<String, Boolean>> verifyOtp(@RequestBody String otpObj, HttpServletRequest httpServletRequest) {
         String emailId = (String) httpServletRequest.getSession().getAttribute("emailId");
         JSONObject json = new JSONObject(otpObj);
