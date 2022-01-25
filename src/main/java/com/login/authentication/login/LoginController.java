@@ -36,16 +36,10 @@ public class LoginController {
     public ResponseEntity<Map<String, Boolean>> verifyOtp(@RequestBody String otpObj, HttpServletRequest httpServletRequest) {
         String emailId = (String) httpServletRequest.getSession().getAttribute("emailId");
         JSONObject json = new JSONObject(otpObj);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Access-Control-Allow-Origin", "*");
-        headers.set("Access-Control-Allow-Methods", "POST");
-        headers.set("Access-Control-Allow-Headers", "Content-Type");
-
         if (loginService.verifyOtp(json.getString("otp"), emailId))
-            return new ResponseEntity<>(headers, HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         else
-            return new ResponseEntity<>(headers, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/logout")
